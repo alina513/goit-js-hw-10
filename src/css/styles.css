@@ -17,17 +17,7 @@
     font-weight: 400;
  }
 
- 
-.position {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
 
-.default {
-
-    position: relative;
-}
 
  .is-hidden {
     opacity: 0;
