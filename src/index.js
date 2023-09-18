@@ -1,14 +1,20 @@
 import { fetchBreeds } from "./cat-api";
 import { fetchCatByBreed } from "./cat-api";
-const input = document.querySelector(".breed-select");
+import Notiflix from 'notiflix';
+
+
 const div = document.querySelector(".cat-info");
 const select = document.querySelector(".breed-select");
 const loader = document.querySelector(".loader");
 const err = document.querySelector(".error");
 
-input.addEventListener("change", onChange);
+
+
+select.addEventListener("change", onChange);
+
 fetchBreeds()
 .then((data) => {select.innerHTML = createName(data);
+
 loader.classList.toggle("is-hidden");
 select.classList.toggle("is-hidden")})
 .catch((error) => {console.log(error);
@@ -17,21 +23,25 @@ select.classList.toggle("is-hidden")})
 
 let photo;
 function onChange(event) {
+  div.innerHTML = '';
   loader.classList.toggle("is-hidden");
     fetchCatByBreed(event.target.value)
-    .then((data) => {photo = data[0].url
+    .then((data) => {photo = data[0].url;
     
       fetchBreeds()
     .then(breeds => {const choose = breeds.find(breed => breed.id === event.target.value);
-    div.innerHTML = `<div>
-    <img src="${photo}" alt="cat" class="cat-photo"><div class="container">
+    div.innerHTML = `<div class="container">
+    <img src="${photo}" alt="cat" class="cat-photo"><div>
     <h1 class="cat-name">${choose.name}</h1>
+    <p class="cat-description">${choose.description}</p>
     <h2 class="cat-hider-temperament">Temperament:
       <p class="cat-temperament">${choose.temperament}</p>
-      <p class="cat-description">${choose.description}</p>
-    </h2></div>
+      </h2></div>
   </div>`;
-  loader.classList.toggle("is-hidden");})
+  
+  loader.classList.toggle("is-hidden");
+  
+  })
   .catch(error => {console.log(error);
     err.classList.toggle("is-hidden");
     loader.classList.toggle("is-hidden");
