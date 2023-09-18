@@ -17,7 +17,9 @@
     font-weight: 400;
  }
 
-
+.error {
+   color: red;
+}
 
  .is-hidden {
     opacity: 0;
