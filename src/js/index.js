@@ -1,5 +1,4 @@
-import { fetchBreeds } from "./cat-api";
-import { fetchCatByBreed } from "./cat-api";
+import { fetchBreeds, fetchCatByBreed } from "./cat-api";
 import Notiflix from 'notiflix';
 
 
@@ -8,9 +7,8 @@ const select = document.querySelector(".breed-select");
 const loader = document.querySelector(".loader");
 const err = document.querySelector(".error");
 
-
-
 select.addEventListener("change", onChange);
+
 
 fetchBreeds()
 .then((data) => {select.innerHTML = createName(data);
@@ -25,8 +23,10 @@ let photo;
 function onChange(event) {
   div.innerHTML = '';
   loader.classList.toggle("is-hidden");
+  err.classList.add("is-hidden");
     fetchCatByBreed(event.target.value)
-    .then((data) => {photo = data[0].url;
+    .then((data) => {loader.classList.toggle("is-hidden");
+      photo = data[0].url;
     
       fetchBreeds()
     .then(breeds => {const choose = breeds.find(breed => breed.id === event.target.value);
@@ -39,19 +39,16 @@ function onChange(event) {
       </h2></div>
   </div>`;
   
-  loader.classList.toggle("is-hidden");
   
   })
   .catch(error => {console.log(error);
-    err.classList.toggle("is-hidden");
-    loader.classList.toggle("is-hidden");
   })
     
     })
     .catch((error) => {console.log(err);
-      err.classList.toggle("is-hidden");
+      
+      err.classList.remove("is-hidden");
       loader.classList.toggle("is-hidden");
-      div.classList.add("is-hidden");
     });
 
     
@@ -64,4 +61,4 @@ function createName (breeds) {
   return breeds
   .map(({id, name}) => `<option value="${id}">${name}</option>`)
   .join("");
-}
+};
